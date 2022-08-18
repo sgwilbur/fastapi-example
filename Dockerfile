@@ -16,13 +16,13 @@ ENV PIP_DEFAULT_TIMEOUT=100
 RUN pip install "poetry==${POETRY_VERSION}"
 
 WORKDIR /app
-COPY poetry.lock pyproject.toml /app
+COPY poetry.lock pyproject.toml /app/
 
 # Project initialization:
 RUN poetry config virtualenvs.create false \
   && poetry install $(test "$YOUR_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
 
 # Creating folders, and files for a project:
-COPY main.py /app
+COPY main.py /app/
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
